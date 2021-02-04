@@ -3,7 +3,7 @@
   <div class="chat-bubble" :class="side">
     <div class="avatar">
       <slot name="avatar">
-        <img src="" alt="avatar" @error="imgErr">
+        <img src="" alt="avatar" @error="imgErr" />
       </slot>
     </div>
     <div class="detail">
@@ -74,7 +74,6 @@ export default {
     },
   },
 };
-
 </script>
 <style lang="scss">
 .chat-bubble {
@@ -101,7 +100,7 @@ export default {
     height: 50px;
     border: 2px solid #fff;
     border-radius: 50%;
-    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     overflow: hidden;
     img {
       width: 100%;
@@ -124,7 +123,7 @@ export default {
     .bubble {
       padding: 10px;
       word-break: break-all;
-      box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
       background-color: #ccc;
       border-radius: 10px;
       border-top-left-radius: 0;

@@ -1,10 +1,6 @@
 <!-- article card -->
 <template>
-  <el-card
-    shadow="hover"
-    class="article-card"
-    @click.native="handleCardClick"
-  >
+  <el-card shadow="hover" class="article-card" @click.native="handleCardClick">
     <!-- <div class="header"> -->
     <div class="title">
       {{ item.title }}
@@ -33,8 +29,7 @@ export default {
     },
   },
   data() {
-    return {
-    };
+    return {};
   },
   computed: {},
   watch: {},
@@ -46,7 +41,6 @@ export default {
     },
   },
 };
-
 </script>
 <style lang="scss">
 .article-card {
@@ -57,7 +51,7 @@ export default {
   border-radius: 4px;
   background-color: #ffffff;
   // h-shadow v-shadow blur spread color inset;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
   cursor: pointer;
   // color: #409EFF;
   .el-card__body {

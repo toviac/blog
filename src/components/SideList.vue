@@ -62,7 +62,6 @@ export default {
     },
   },
 };
-
 </script>
 <style lang="scss">
 .side-list {
@@ -100,7 +99,7 @@ export default {
         border-radius: 50%;
         background: url('~assets/images/avatar.jpg') no-repeat center center;
         background-size: cover;
-        transition: all .5s;
+        transition: all 0.5s;
         &:hover {
           cursor: pointer;
           transform: rotate(360deg) scale(1.2);

@@ -6,16 +6,8 @@
         <!-- <img class="logo" src="/logo.png" alt="logo"> -->
         Doco
       </nuxt-link>
-      <el-menu
-        mode="horizontal"
-        :default-active="activeIndex"
-        @select="handleNavSelect"
-      >
-        <el-menu-item
-          v-for="item in navList"
-          :key="item.index"
-          :index="item.index"
-        >
+      <el-menu mode="horizontal" :default-active="activeIndex" @select="handleNavSelect">
+        <el-menu-item v-for="item in navList" :key="item.index" :index="item.index">
           {{ item.name }}
         </el-menu-item>
       </el-menu>
@@ -67,7 +59,6 @@ export default {
     },
   },
 };
-
 </script>
 <style lang="scss">
 .nav-bar {
@@ -77,7 +68,7 @@ export default {
   flex-shrink: 0;
   background-color: #fff;
   z-index: 2;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   position: relative;
   transition: height 0.3s ease;
   user-select: none;

@@ -2,7 +2,19 @@
 import Vue from 'vue';
 // import ElementUI from 'element-ui';
 import {
-  Card, Menu, MenuItem, Input, ButtonGroup, Button, Scrollbar, Dialog, Form, FormItem, RadioGroup, Radio, Message,
+  Card,
+  Menu,
+  MenuItem,
+  Input,
+  ButtonGroup,
+  Button,
+  Scrollbar,
+  Dialog,
+  Form,
+  FormItem,
+  RadioGroup,
+  Radio,
+  Message,
 } from 'element-ui';
 
 // Vue.use(ElementUI);

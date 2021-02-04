@@ -11,8 +11,8 @@ export default {
   },
   mode: 'universal',
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     // title: process.env.npm_package_name || '',
     title: 'Doco',
@@ -27,19 +27,16 @@ export default {
     ],
   },
   /*
-  ** Customize the progress-bar color
-  */
+   ** Customize the progress-bar color
+   */
   loading: { color: '#666' },
   /*
-  ** Global CSS
-  */
-  css: [
-    'assets/css/common.css',
-    'element-ui/lib/theme-chalk/index.css',
-  ],
+   ** Global CSS
+   */
+  css: ['assets/css/common.css', 'element-ui/lib/theme-chalk/index.css'],
   /*
-  ** Plugins to load before mounting the App
-  */
+   ** Plugins to load before mounting the App
+   */
   plugins: [
     {
       src: '@/plugins/element-ui',
@@ -51,8 +48,8 @@ export default {
     // '@/plugins/socket.io',
   ],
   /*
-  ** Nuxt.js modules
-  */
+   ** Nuxt.js modules
+   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
@@ -61,9 +58,9 @@ export default {
     '@nuxtjs/eslint-module',
   ],
   /*
-  ** Axios module configuration
-  ** See https://axios.nuxtjs.org/options
-  */
+   ** Axios module configuration
+   ** See https://axios.nuxtjs.org/options
+   */
   axios: {
     proxy: true,
   },
@@ -76,14 +73,13 @@ export default {
     },
   },
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     /*
-    ** You can extend webpack config here
-    */
-    extend(config, ctx) {
-    },
+     ** You can extend webpack config here
+     */
+    extend(config, ctx) {},
     loaders: {
       // 100k以下的图片会被编译为base64
       imgUrl: { limit: 100000 },

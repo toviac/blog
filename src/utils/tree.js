@@ -43,9 +43,7 @@ class Tree {
   // 设置canvas样式
   setCanvas(style = {}) {
     // 设置canvas宽高后样式会重置
-    const {
-      canvas, ctx, width, height, fontSize,
-    } = this;
+    const { canvas, ctx, width, height, fontSize } = this;
     canvas.width = style.width || width;
     canvas.height = style.height || height;
     ctx.lineWidth = style.lineWidth || 2;
@@ -153,9 +151,7 @@ class Tree {
   // 格式化节点
   formatNodes() {
     // 格式化各节点数据
-    const {
-      ctx, depth, height, childKey,
-    } = this;
+    const { ctx, depth, height, childKey } = this;
     const format = node => {
       // 设置节点宽度
       const textBlockWidth = Math.ceil(ctx.measureText(node.name).width + 6);
@@ -172,7 +168,7 @@ class Tree {
       let positionY = 0;
       if (node.layer === depth) {
         // 是最后一级
-        positionY = height / (node.total + 1) * (node.index + 1);
+        positionY = (height / (node.total + 1)) * (node.index + 1);
       } else {
         const sub = node[childKey];
         // 第一个子节点的y + 最后一个子节点的y / 2
@@ -201,7 +197,9 @@ class Tree {
     // 每边的tree数组是从0-depth层
     const widthArr = [...leftWidthArr.reverse(), centerWidth, ...rightWidthArr];
     let totalWidth = 0;
-    widthArr.forEach(width => { totalWidth += width; });
+    widthArr.forEach(width => {
+      totalWidth += width;
+    });
     this.setCanvas({ width: totalWidth });
     this.width = totalWidth;
     console.log('canvasWidth: ', totalWidth);
@@ -242,15 +240,18 @@ class Tree {
   // role角色:  platform, operator, shop
   render(role = 'platform') {
     this.init();
-    const {
-      fontSize, ctx, depth, childKey, width, height,
-    } = this;
+    const { fontSize, ctx, depth, childKey, width, height } = this;
     ctx.clearRect(0, 0, width, height);
     const renderNode = node => {
       if (node.layer === 0) {
         ctx.strokeStyle = '#000000';
         // ctx.strokeRect(起点x, 起点y, 宽度, 高度)
-        ctx.strokeRect(node.position.x - (node.width / 2), node.position.y - (fontSize / 2) - 3 - 1, node.width, fontSize + 3 + 3);
+        ctx.strokeRect(
+          node.position.x - node.width / 2,
+          node.position.y - fontSize / 2 - 3 - 1,
+          node.width,
+          fontSize + 3 + 3,
+        );
       }
       // isPlatform, isOperator, isShop
       // 调用静态类
@@ -274,9 +275,9 @@ class Tree {
           // 子节点最大宽度
           const maxSubWidth = Math.max(...subWidthArr);
           this.drawLine(
-            { name: node.name, x: node.position.x - (node.width / 2), y: node.position.y },
-            { name: child.name, x: child.position.x + (child.width / 2), y: child.position.y },
-            (child.position.x + (maxSubWidth / 2) + node.position.x - (node.width / 2)) / 2,
+            { name: node.name, x: node.position.x - node.width / 2, y: node.position.y },
+            { name: child.name, x: child.position.x + child.width / 2, y: child.position.y },
+            (child.position.x + maxSubWidth / 2 + node.position.x - node.width / 2) / 2,
           );
         });
       });
@@ -287,9 +288,9 @@ class Tree {
           const subWidthArr = node[childKey].map(sub => sub.width);
           const maxSubWidth = Math.max(...subWidthArr);
           this.drawLine(
-            { name: node.name, x: node.position.x + (node.width / 2), y: node.position.y },
-            { name: child.name, x: child.position.x - (child.width / 2), y: child.position.y },
-            (child.position.x - (maxSubWidth / 2) + node.position.x + (node.width / 2)) / 2,
+            { name: node.name, x: node.position.x + node.width / 2, y: node.position.y },
+            { name: child.name, x: child.position.x - child.width / 2, y: child.position.y },
+            (child.position.x - maxSubWidth / 2 + node.position.x + node.width / 2) / 2,
           );
         });
       });
@@ -309,15 +310,15 @@ class Tree {
       node[childKey].forEach(sub => {
         if (sub.partOf === 'left') {
           this.drawLine(
-            { name: node.name, x: node.position.x - (node.width / 2), y: node.position.y },
-            { name: sub.name, x: sub.position.x + (sub.width / 2), y: sub.position.y },
-            (sub.position.x + (leftMaxSubWidth / 2) + node.position.x - (node.width / 2)) / 2,
+            { name: node.name, x: node.position.x - node.width / 2, y: node.position.y },
+            { name: sub.name, x: sub.position.x + sub.width / 2, y: sub.position.y },
+            (sub.position.x + leftMaxSubWidth / 2 + node.position.x - node.width / 2) / 2,
           );
         } else {
           this.drawLine(
-            { name: node.name, x: node.position.x + (node.width / 2), y: node.position.y },
-            { name: sub.name, x: sub.position.x - (sub.width / 2), y: sub.position.y },
-            (sub.position.x - (rightMaxSubWidth / 2) + node.position.x + (node.width / 2)) / 2,
+            { name: node.name, x: node.position.x + node.width / 2, y: node.position.y },
+            { name: sub.name, x: sub.position.x - sub.width / 2, y: sub.position.y },
+            (sub.position.x - rightMaxSubWidth / 2 + node.position.x + node.width / 2) / 2,
           );
         }
       });
@@ -330,11 +331,21 @@ class Tree {
     const { ctx, depth, fontSize } = this;
     const renderNode = node => {
       // isPlatform, isOperator, isShop
-      ctx.clearRect(node.position.x - (node.width / 2), node.position.y - (fontSize / 2) - 3 - 1, node.width, fontSize + 3 + 3);
+      ctx.clearRect(
+        node.position.x - node.width / 2,
+        node.position.y - fontSize / 2 - 3 - 1,
+        node.width,
+        fontSize + 3 + 3,
+      );
       if (node.layer === 0) {
         ctx.strokeStyle = '#000000';
         // ctx.strokeRect(起点x, 起点y, 宽度, 高度)
-        ctx.strokeRect(node.position.x - (node.width / 2), node.position.y - (fontSize / 2) - 3 - 1, node.width, fontSize + 3 + 3);
+        ctx.strokeRect(
+          node.position.x - node.width / 2,
+          node.position.y - fontSize / 2 - 3 - 1,
+          node.width,
+          fontSize + 3 + 3,
+        );
       }
       if (node[`is${Tree.toCapitalize(role)}`]) {
         ctx.fillStyle = '#f98700';
@@ -347,12 +358,12 @@ class Tree {
     // 从叶节点开始遍历树
     for (let i = depth; i > -1; i--) {
       this.leftTree[i].forEach(node => {
-        if ((node[`is${Tree.toCapitalize(role)}`] !== node[`is${Tree.toCapitalize(oldRole)}`])) {
+        if (node[`is${Tree.toCapitalize(role)}`] !== node[`is${Tree.toCapitalize(oldRole)}`]) {
           renderNode(node);
         }
       });
       this.rightTree[i].forEach(node => {
-        if ((node[`is${Tree.toCapitalize(role)}`] !== node[`is${Tree.toCapitalize(oldRole)}`])) {
+        if (node[`is${Tree.toCapitalize(role)}`] !== node[`is${Tree.toCapitalize(oldRole)}`]) {
           renderNode(node);
         }
       });

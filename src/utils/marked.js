@@ -41,7 +41,7 @@ marked.setOptions({
   smartypants: false,
   // highlight.js
   // (code, lang, callback)
-  highlight: (code) => {
+  highlight: code => {
     const lang = 'javascript';
     // if (lang && hljs.getLanguage(lang)) {
     return hljs.highlight(lang, code, true).value;
