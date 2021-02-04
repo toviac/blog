@@ -1,15 +1,23 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view v-if="$route.path === '/'" />
+    <router-view v-else />
   </div>
 </template>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  min-width: 1366px;
+  width: 100vw;
+  line-height: 1.6;
+  font-family: Comic Sans MS, Helvetica Neue, Microsoft Yahei, -apple-system, sans-serif !important;
+  font-size: 16px;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
   color: #2c3e50;
 }
 </style>

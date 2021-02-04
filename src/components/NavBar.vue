@@ -2,10 +2,10 @@
 <template>
   <div class="nav-bar">
     <div class="nav-bar-container">
-      <nuxt-link to="/" class="logo">
+      <router-link to="/" class="logo">
         <!-- <img class="logo" src="/logo.png" alt="logo"> -->
         Doco
-      </nuxt-link>
+      </router-link>
       <el-menu mode="horizontal" :default-active="activeIndex" @select="handleNavSelect">
         <el-menu-item v-for="item in navList" :key="item.index" :index="item.index">
           {{ item.name }}

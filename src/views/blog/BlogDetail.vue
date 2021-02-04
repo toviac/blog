@@ -15,32 +15,33 @@ import marked from '@/utils/marked.js';
 export default {
   name: 'ArticleContent',
   components: {},
-  async asyncData({ $axios, params }) {
-    const { id } = params;
-    console.log('id: ', id);
-    const res = await $axios.$get('/api/post', {
-      params: { id },
-    });
-    let { content } = res.post;
-    // 所有带hash的链接替换为history模式
-    content = content.replace(/\(#\//g, '(/');
-    content = marked(content);
-    return {
-      content,
-    };
-  },
   data() {
     return {
+      content: '',
       showImgPreview: false,
       imgSrc: '',
     };
   },
   computed: {},
   watch: {},
-  mounted() {
-    this.addListeners();
+  created() {
+    this.getData();
   },
+  mounted() {},
   methods: {
+    async getData() {
+      console.log('params: ', this.$route.params);
+      const { id } = this.$route.params;
+      console.log('id: ', id);
+      const res = await this.$axios.$get('/api/post', { id });
+      let { content } = res.post;
+      // 所有带hash的链接替换为history模式
+      content = content.replace(/\(#\//g, '(/');
+      this.content = marked(content);
+      this.$nextTick(() => {
+        this.addListeners();
+      });
+    },
     // 图片/链接添加事件
     addListeners() {
       this.imgGroup = document.querySelectorAll('.article-content img');

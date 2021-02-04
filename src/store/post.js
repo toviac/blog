@@ -1,13 +1,18 @@
-export const state = () => ({
-  postList: [],
-});
+const post = {
+  state: () => ({
+    postList: [],
+  }),
 
-export const getters = {
-  postList: state => state.postList,
-};
-
-export const mutations = {
-  updatePostList: (state, payload) => {
-    state.postList = payload;
+  getters: {
+    postList: state => state.postList,
   },
+
+  mutations: {
+    updatePostList: (state, payload) => {
+      state.postList = payload;
+    },
+  },
+  namespaced: true,
 };
+
+export default post;

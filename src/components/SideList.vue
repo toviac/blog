@@ -84,7 +84,7 @@ export default {
       position: relative;
       // 背景图片资源宽高比3/5, side-card固定宽度300px;
       height: 180px;
-      background: url('~assets/images/card-bgimg.jpg') no-repeat top center;
+      background: url('~@/assets/images/card-bgimg.jpg') no-repeat top center;
       background-size: contain;
       margin-bottom: 50px;
       .avatar {
@@ -97,7 +97,7 @@ export default {
         height: 80px;
         border: 2px solid #fff;
         border-radius: 50%;
-        background: url('~assets/images/avatar.jpg') no-repeat center center;
+        background: url('~@/assets/images/avatar.jpg') no-repeat center center;
         background-size: cover;
         transition: all 0.5s;
         &:hover {
