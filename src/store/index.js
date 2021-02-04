@@ -1,11 +1,13 @@
-import Vue from "vue";
-import Vuex from "vuex";
-
-Vue.use(Vuex);
-
-export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {}
+export const state = () => ({
+  isFirst: true,
 });
+
+export const getters = {
+  isFirst: state => state.isFirst,
+};
+
+export const mutations = {
+  updateIsFirst: (state, payload) => {
+    state.isFirst = payload;
+  },
+};
