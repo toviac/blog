@@ -75,7 +75,7 @@ export default {
           area: 'area_e',
           color: '#333',
           icon: 'icon-git',
-          path: 'https://www.github.com/coolucifer',
+          path: 'https://www.github.com/docodocool',
           isExternal: true,
           target: '_blank',
         },
