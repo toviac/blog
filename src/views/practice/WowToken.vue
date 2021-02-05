@@ -2,7 +2,7 @@
 <template>
   <div class="wow-token-chart">
     <h1>魔兽世界怀旧服: 时光徽章价格曲线</h1>
-    <div id="chart" style="height:500px;"></div>
+    <div id="chart" style="height:500px;" v-loading="loading"></div>
   </div>
 </template>
 
@@ -11,16 +11,11 @@ import echarts from '@/plugins/echarts';
 
 export default {
   components: {},
-  async asyncData({ $axios }) {
-    const res = await $axios.$get('/api/wowToken/list');
-    return {
-      list: res.list,
-    };
-  },
   data() {
     return {
       list: [],
       chart: null,
+      loading: false,
     };
   },
   computed: {
@@ -55,8 +50,10 @@ export default {
   mounted() {},
   methods: {
     async getData() {
+      this.loading = true;
       const res = await this.$axios.$get('/api/wowToken/list');
       this.list = res.list;
+      this.loading = false;
       this.$nextTick(() => {
         this.initChart();
       });

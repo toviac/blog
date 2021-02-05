@@ -10,6 +10,7 @@ import {
   Button,
   Scrollbar,
   Dialog,
+  Loading,
   Form,
   FormItem,
   RadioGroup,
@@ -30,5 +31,6 @@ Vue.use(Form);
 Vue.use(FormItem);
 Vue.use(RadioGroup);
 Vue.use(Radio);
+Vue.use(Loading);
 
 Vue.prototype.$message = Message;
