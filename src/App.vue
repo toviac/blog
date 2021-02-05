@@ -6,6 +6,9 @@
 </template>
 
 <style lang="scss">
+#nprogress .bar {
+  background: #409eff !important; //自定义颜色
+}
 #app {
   min-width: 1366px;
   width: 100vw;

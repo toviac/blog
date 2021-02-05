@@ -15,6 +15,7 @@
     "element-ui": "^2.15.0",
     "highlight.js": "^10.5.0",
     "marked": "^1.2.9",
+    "nprogress": "^0.2.0",
     "register-service-worker": "^1.7.1",
     "socket.io": "^2.4.0",
     "socket.io-client": "^2.4.0",
