@@ -1,5 +1,5 @@
 <template>
-  <div class="article-content">
+  <div class="article-content" v-loading="loading">
     <!-- 'v-html' directive can lead to XSS attack  vue/no-v-html -->
     <!-- eslint-disable-next-line -->
     <div class="html" v-html="content"></div>
@@ -20,6 +20,7 @@ export default {
       content: '',
       showImgPreview: false,
       imgSrc: '',
+      loading: false,
     };
   },
   computed: {},
@@ -30,6 +31,7 @@ export default {
   mounted() {},
   methods: {
     async getData() {
+      this.loading = true;
       console.log('params: ', this.$route.params);
       const { id } = this.$route.params;
       console.log('id: ', id);
@@ -38,6 +40,7 @@ export default {
       // 所有带hash的链接替换为history模式
       content = content.replace(/\(#\//g, '(/');
       this.content = marked(content);
+      this.loading = false;
       this.$nextTick(() => {
         this.addListeners();
       });

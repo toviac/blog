@@ -1,7 +1,10 @@
 <template>
   <div class="blog-page">
-    <article-card v-for="item in postList" :key="item.id" :item="item" @click.native="cardClick(item.id)">
-    </article-card>
+    <article-card v-loading="true" v-if="!postList.length"></article-card>
+    <template v-else>
+      <article-card v-for="item in postList" :key="item.id" :item="item" @click.native="cardClick(item.id)">
+      </article-card>
+    </template>
   </div>
 </template>
 
