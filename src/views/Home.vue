@@ -3,7 +3,9 @@
     <nav-bar></nav-bar>
     <el-scrollbar id="scroll-box" ref="scrollbar" class="scroll-bar" wrap-style="overflow-x: hidden;">
       <div class="grid-layout">
-        <router-view />
+        <transition name="fade-transform" mode="out-in">
+          <router-view />
+        </transition>
         <side-list></side-list>
       </div>
     </el-scrollbar>
@@ -65,6 +67,18 @@ export default {
         }
       }
     }
+  }
+  .fade-transform-leave-active,
+  .fade-transform-enter-active {
+    transition: all 0.5s;
+  }
+  .fade-transform-enter {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  .fade-transform-leave-to {
+    opacity: 0;
+    transform: translateX(20px);
   }
 }
 </style>

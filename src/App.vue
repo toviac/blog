@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <transition name="el-fade-in-linear">
+    <transition name="fade-in-out" mode="out-in">
       <router-view v-if="$route.path === '/'" />
       <router-view v-else />
     </transition>
@@ -24,5 +24,15 @@
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
   color: #2c3e50;
+}
+.fade-in-out-leave-active,
+.fade-in-out-enter-active {
+  transition: all 0.5s;
+}
+.fade-in-out-enter {
+  opacity: 0;
+}
+.fade-in-out-leave-to {
+  opacity: 0;
 }
 </style>
