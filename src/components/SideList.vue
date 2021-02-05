@@ -14,7 +14,7 @@
         <div class="avatar"></div>
       </div>
       <el-button-group>
-        <a href="https://github.com/coolucifer" target="_blank">
+        <a href="https://github.com/docodocool" target="_blank">
           <el-button size="mini" plain icon="iconfont icon-git" @click="clearFocus">Github</el-button>
         </a>
         <a href="http://wpa.qq.com/msgrd?v=3&uin=1045606768&site=qq&menu=yes" target="_blank">
