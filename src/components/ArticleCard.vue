@@ -24,7 +24,10 @@ export default {
     item: {
       type: Object,
       default() {
-        return {};
+        return {
+          title: '',
+          createTime: '',
+        };
       },
     },
   },
