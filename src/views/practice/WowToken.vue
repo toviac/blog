@@ -19,6 +19,7 @@ export default {
   },
   data() {
     return {
+      list: [],
       chart: null,
     };
   },
@@ -48,10 +49,18 @@ export default {
     },
   },
   watch: {},
-  mounted() {
-    this.initChart();
+  created() {
+    this.getData();
   },
+  mounted() {},
   methods: {
+    async getData() {
+      const res = await this.$axios.$get('/api/wowToken/list');
+      this.list = res.list;
+      this.$nextTick(() => {
+        this.initChart();
+      });
+    },
     initChart() {
       const el = document.querySelector('#chart');
       this.chart = echarts.init(el);

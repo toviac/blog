@@ -32,9 +32,12 @@ const routes = [
       {
         path: '/practice/:component',
         name: 'PracticeDetail',
-        component: () => {
-          return import('@/views/practice/Detail.vue');
-        },
+        component: () => import('@/views/practice/Detail.vue'),
+      },
+      {
+        path: '/about',
+        name: 'About',
+        component: () => import('@/views/about/Index.vue'),
       },
     ],
   },
