@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <router-view v-if="$route.path === '/'" />
-    <router-view v-else />
+    <transition name="el-fade-in-linear">
+      <router-view v-if="$route.path === '/'" />
+      <router-view v-else />
+    </transition>
   </div>
 </template>
 
