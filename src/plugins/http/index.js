@@ -23,8 +23,9 @@ axios.interceptors.response.use(
 
 const responseHandle = function(response) {
   return new Promise(function(resolve, reject) {
+    console.log('response: ', response);
     let data = response.data;
-    if (data.resultCode === '100') {
+    if (response.status === 200) {
       resolve(data);
     } else {
       reject(data);

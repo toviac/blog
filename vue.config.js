@@ -5,8 +5,8 @@ module.exports = {
     port: 3333,
     proxy: {
       '/api': {
-        target: 'https://doco.dev',
-        // target: 'http://localhost:7001',
+        // target: 'https://doco.dev',
+        target: 'http://localhost:7001',
         // 开启跨域
         changeOrigin: true,
       },

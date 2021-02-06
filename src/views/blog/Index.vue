@@ -29,7 +29,7 @@ export default {
     ...mapMutations('post', ['updatePostList']),
     async getList() {
       if (!this.postList.length) {
-        const { list } = await this.$axios.$get('/api/post/list');
+        const list = await this.$axios.$get('/api/post/list');
         this.updatePostList(list);
       }
     },

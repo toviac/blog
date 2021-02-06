@@ -3,7 +3,8 @@ import io from 'socket.io-client';
 function SocketIO() {
   this.connect = userName =>
     new Promise((resolve, reject) => {
-      const socket = io(process.env.WS_URL, {
+      console.log('WS_URL: ', process.env.VUE_APP_WS_URL);
+      const socket = io(process.env.VUE_APP_WS_URL, {
         query: {
           room: 'default',
           userId: `client_${Math.random()}`,
