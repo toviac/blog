@@ -1,12 +1,12 @@
 import io from 'socket.io-client';
 
 function SocketIO() {
-  this.connect = userName =>
+  this.connect = ({ userName, namespace = '', room }) =>
     new Promise((resolve, reject) => {
       console.log('WS_URL: ', process.env.VUE_APP_WS_URL);
-      const socket = io(process.env.VUE_APP_WS_URL, {
+      const socket = io(`${process.env.VUE_APP_WS_URL}/${namespace}`, {
         query: {
-          room: 'default',
+          room: room || 'public',
           userId: `client_${Math.random()}`,
           userName,
         },
@@ -17,7 +17,7 @@ function SocketIO() {
       Object.setPrototypeOf(this, socket);
       socket.on('connect', () => {
         console.log('socket connect');
-        resolve();
+        resolve(socket);
       });
       socket.on('connect_error', error => {
         console.log('ERR: SOCKET_CONNECT_ERROR: ', error);

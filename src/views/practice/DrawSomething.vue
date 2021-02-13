@@ -1,6 +1,6 @@
-<!-- 人类的本质是复读机 -->
+<!-- 你画我猜 -->
 <template>
-  <div class="repeater">
+  <div class="draw-something">
     <div class="main-area">
       <transition name="fade">
         <div v-if="showMask" class="mask">
@@ -27,7 +27,7 @@
           </el-card>
         </div>
       </transition>
-      <h1>人类的本质是复读机</h1>
+      <h1>你画我猜</h1>
       <div class="repeater-body">
         <el-form
           ref="messageForm"
@@ -51,6 +51,8 @@
           <chat-bubble v-for="(item, index) in msgList" :key="index" :data="item" :side="getMsgSide(item.id)">
           </chat-bubble>
         </el-scrollbar>
+        <!-- canvas -->
+        <drawing-board></drawing-board>
       </div>
     </div>
     <el-card v-show="socketUserId" class="side-area">
@@ -75,10 +77,12 @@ import { mapGetters, mapMutations } from 'vuex';
 import socket from '@/plugins/socket.io';
 import ChatBubble from '@/components/practice/ChatBubble.vue';
 import defaultAvatar from '@/assets/images/default_avatar.jpg';
+import DrawingBoard from '@/components/practice/DrawingBoard.vue';
 
 export default {
   components: {
     ChatBubble,
+    DrawingBoard,
   },
   data() {
     return {
@@ -159,6 +163,7 @@ export default {
         const { userName } = this;
         if (!userName) return;
         await this.initSocket(userName);
+        this.updateSocketUserName(userName);
         this.showMask = false;
       } catch (e) {
         this.$message({
@@ -171,13 +176,13 @@ export default {
     async initSocket(userName) {
       this.socket = await socket.connect({
         userName: userName,
-        room: 'chat',
+        room: 'draw',
       });
       const { userId } = socket.query;
       this.updateSocketUserId(userId);
       this.updateSocketUserName(userName);
       // 获取在线列表
-      socket.emit('online-list', { room: 'chat' }, msg => {
+      socket.emit('online-list', { room: 'draw' }, msg => {
         console.log('current online: ', msg);
         this.onlineList = msg;
       });
@@ -252,7 +257,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.repeater {
+.draw-something {
   // 扩展范围, 以显示侧边在线列表
   display: grid;
   grid-area: 1/1/2/3;
@@ -323,7 +328,8 @@ export default {
       }
     }
     .logs {
-      flex-grow: 1;
+      // flex-grow: 1;
+      height: 300px;
       box-shadow: inset 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     }
   }
