@@ -51,7 +51,7 @@ export default {
   methods: {
     async getData() {
       this.loading = true;
-      const res = await this.$axios.$get('/api/wowToken/list');
+      const res = await this.$axios.$get('/api/wow-token/list');
       this.list = res.list;
       this.loading = false;
       this.$nextTick(() => {
