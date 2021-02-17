@@ -52,7 +52,7 @@
           </chat-bubble>
         </el-scrollbar>
         <!-- canvas -->
-        <drawing-board></drawing-board>
+        <drawing-board ref="board" :user-name="userName"></drawing-board>
       </div>
     </div>
     <el-card v-show="socketUserId" class="side-area">
@@ -176,6 +176,7 @@ export default {
     async initSocket(userName) {
       this.socket = await socket.connect({
         userName: userName,
+        namespace: 'draw',
         room: 'draw',
       });
       const { userId } = socket.query;
@@ -220,14 +221,6 @@ export default {
     sendMsg() {
       const { message, socketUserId, socketUserName } = this;
       if (!message) return;
-      // const msg = {
-      //   client: socket.id,
-      //   target: 'server',
-      //   payload: {
-      //     message: this.message,
-      //   },
-      //   // timestamp: +new Date(),
-      // };
 
       const msg = {
         type: 'room',
@@ -244,6 +237,7 @@ export default {
       socket.emit('message', msg, () => {
         console.log('send success!');
       });
+      this.$refs['board'].sendMsg(msg);
 
       // emit('...', params, callback)
       // socket.emit('chat', msg, () => {

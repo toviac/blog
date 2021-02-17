@@ -15,13 +15,13 @@ export default {
     return {
       // 练习列表
       list: [
-        {
-          author: 'admin',
-          createTime: '2021-02-11',
-          id: 'DrawSomething',
-          title: '你画我猜',
-          updateTime: '2021-02-11',
-        },
+        // {
+        //   author: 'admin',
+        //   createTime: '2021-02-11',
+        //   id: 'DrawSomething',
+        //   title: '你画我猜',
+        //   updateTime: '2021-02-11',
+        // },
         {
           author: 'admin',
           createTime: '2020-04-02',

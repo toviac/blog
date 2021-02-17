@@ -1,6 +1,7 @@
 <!-- 你画我猜: 画板 -->
 <template>
   <div class="drawing-board">
+    <div class="msg"></div>
     <div class="msg">{{ message }}</div>
     <canvas id="board-canvas" width="500" height="500" style="border: 1px solid #999;"></canvas>
   </div>
@@ -38,6 +39,10 @@ export default {
     this.initCanvas();
   },
   methods: {
+    sendMsg(msg) {
+      console.log('send msg: ', msg);
+      this.socket.emit('message', msg, () => {});
+    },
     initCanvas() {
       const canvas = document.querySelector('#board-canvas');
       this.ctx = canvas.getContext('2d');
