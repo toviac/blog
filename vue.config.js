@@ -1,3 +1,5 @@
+const FileManagerPlugin = require('filemanager-webpack-plugin');
+
 module.exports = {
   publicPath: '/',
   outputDir: 'dist',
@@ -29,5 +31,17 @@ module.exports = {
         },
       },
     },
+  },
+  configureWebpack: {
+    plugins: [
+      new FileManagerPlugin({
+        events: {
+          onEnd: {
+            delete: ['./dist.zip'],
+            archive: [{ source: './dist', destination: './dist.zip' }],
+          },
+        },
+      }),
+    ],
   },
 };
