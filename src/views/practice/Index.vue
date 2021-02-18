@@ -11,7 +11,8 @@ const list = [
   // {
   //   author: 'admin',
   //   createTime: '2021-02-11',
-  //   id: 'DrawSomething',
+  //   id: 'drawsomething',
+  //   component: 'DrawSomething',
   //   title: '你画我猜',
   //   updateTime: '2021-02-11',
   // },
