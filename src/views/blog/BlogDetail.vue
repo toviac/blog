@@ -36,7 +36,7 @@ export default {
       const { id } = this.$route.params;
       console.log('id: ', id);
       const res = await this.$axios.$get('/api/post', { id });
-      let { content } = res.post;
+      let { content } = res.data;
       // 所有带hash的链接替换为history模式
       content = content.replace(/\(#\//g, '(/');
       this.content = marked(content);
