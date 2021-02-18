@@ -4,11 +4,14 @@
 </template>
 
 <script>
+import { list } from './Index.vue';
+
 export default {
   components: {},
   data() {
+    const componentName = list.find(i => i.id === `${this.$route.params.component}`).component;
     return {
-      component: () => import(`./${this.$route.params.component}`),
+      component: () => import(`./${componentName}`),
     };
   },
   computed: {},
