@@ -3,6 +3,7 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 module.exports = {
   publicPath: '/',
   outputDir: 'dist',
+  productionSourceMap: false,
   devServer: {
     port: 3333,
     proxy: {
