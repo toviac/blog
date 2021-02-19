@@ -3,13 +3,24 @@
   <div class="drawing-board">
     <div class="msg"></div>
     <div class="msg">{{ message }}</div>
-    <canvas id="board-canvas" width="500" height="500" style="border: 1px solid #999;"></canvas>
+    <canvas
+      id="board-canvas"
+      width="500"
+      height="500"
+      style="border: 1px solid #999;"
+      @mousedown="onMouseDown"
+      @mouseup="onMouseUp"
+      @mouseout="onMouseUp"
+      @mousemove="throttleMouseMove"
+      @touchstart="onMouseDown"
+      @touchend="onMouseUp"
+      @touchcancel="onMouseUp"
+      @touchmove="throttleMouseMove"
+    ></canvas>
   </div>
 </template>
 
 <script>
-import socket from '@/plugins/socket.io';
-
 export default {
   props: {
     userName: {
@@ -20,77 +31,104 @@ export default {
   components: {},
   data() {
     return {
-      socket: null,
-      key: '',
       ctx: null,
+      canvas: null,
       canvasWidth: 500,
       canvasHeight: 500,
       message: '',
+      current: {
+        x: 0,
+        y: 0,
+        color: '#000000',
+      },
+      drawing: false,
     };
   },
-  computed: {
-    isShowBoard() {
-      return !this.key;
-    },
-  },
+  computed: {},
   watch: {},
   created() {},
   mounted() {
     this.initCanvas();
   },
   methods: {
-    sendMsg(msg) {
-      console.log('send msg: ', msg);
-      this.socket.emit('message', msg, () => {});
-    },
     initCanvas() {
       const canvas = document.querySelector('#board-canvas');
       this.ctx = canvas.getContext('2d');
-      this.ctx.strokeSyle = '#000';
+      this.ctx.strokeSyle = this.color;
+      this.ctx.lineWidth = 2;
+      this.canvas = canvas;
     },
-    async initSocket() {
-      this.socket = await socket.connect({
-        userName: this.userName,
-        namespace: 'draw',
-        room: 'public',
-      });
-      this.socket.on('drawing', data => {
-        this.message = `${data.userName} is drawing...`;
-        this.draw({ beginX: data.beginX, beginY: data.beginY, endX: data.endX, endY: data.endY });
-      });
-      this.socket.on('clear', () => {
-        console.log('socket: clear canvas!');
-        this.onClear();
-      });
+    onMouseDown(e) {
+      this.drawing = true;
+      this.current.x = e.offsetX || e.touches[0].offsetX;
+      this.current.y = e.offsetY || e.touches[0].offsetY;
     },
-    onDrawing({ beginX, beginY, endX, endY }) {
-      const { ctx } = this;
-      ctx.beginPath();
-      ctx.moveTo(beginX, beginY);
-      ctx.lineTo(endX, endY);
-      ctx.stroke();
+    onMouseUp(e) {
+      if (!this.drawing) return;
+      this.drawing = false;
+      this.drawLine(
+        this.current.x,
+        this.current.y,
+        e.offsetX || e.touches[0].offsetX,
+        e.offsetY || e.touches[0].offsetY,
+        this.current.color,
+        true,
+      );
     },
-    onClear() {
-      this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-      if (this.key) {
-        this.socket.emit('clear');
-      }
+    onMouseMove(e) {
+      if (!this.drawing) return;
+      this.drawLine(
+        this.current.x,
+        this.current.y,
+        e.offsetX || e.touches[0].offsetX,
+        e.offsetY || e.touches[0].offsetY,
+        this.current.color,
+        true,
+      );
+      this.current.x = e.offsetX || e.touches[0].offsetX;
+      this.current.y = e.offsetY || e.touches[0].offsetY;
     },
-    onSuccess(userName) {
-      this.$confirm({
-        message: `${userName} has won this game!`,
-      });
-    },
-    onNewGame() {
-      this.socket.emit('start');
-      const { ctx } = this;
-      ctx.onMouseDown = e => {
-        const { offsetX, offsetY } = e;
-        ctx.beginPath(offsetX, offsetY);
-        ctx.moveTo();
-        // const begin = { beginX: e.offsetX, beginY: e.offsetY };
-        this.onDrawing();
+    throttle(callback, delay = 10) {
+      let previousCall = new Date().getTime();
+      return function() {
+        const time = new Date().getTime();
+
+        if (time - previousCall >= delay) {
+          previousCall = time;
+          callback.apply(null, arguments);
+        }
       };
+    },
+    throttleMouseMove(e) {
+      this.throttle(this.onMouseMove(e));
+    },
+    onDrawing({ x0, y0, x1, y1, color }) {
+      const w = this.canvas.width;
+      const h = this.canvas.height;
+      this.drawLine(x0 * w, y0 * h, x1 * w, y1 * h, color);
+    },
+    drawLine(x0, y0, x1, y1, color, emit) {
+      this.ctx.beginPath();
+      this.ctx.moveTo(x0, y0);
+      this.ctx.lineTo(x1, y1);
+      this.ctx.strokeStyle = color;
+      this.ctx.stroke();
+      this.ctx.closePath();
+
+      if (!emit) return;
+      var w = this.canvas.width;
+      var h = this.canvas.height;
+
+      this.$emit('drawing', {
+        x0: x0 / w,
+        y0: y0 / h,
+        x1: x1 / w,
+        y1: y1 / h,
+        color: color,
+      });
+    },
+    clearRect() {
+      this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     },
   },
 };

@@ -52,7 +52,7 @@
           </chat-bubble>
         </el-scrollbar>
         <!-- canvas -->
-        <drawing-board ref="board" :user-name="userName"></drawing-board>
+        <drawing-board ref="board" :user-name="userName" @drawing="handleDraw"></drawing-board>
       </div>
     </div>
     <el-card v-show="socketUserId" class="side-area">
@@ -211,6 +211,9 @@ export default {
           this.insertMsg(msg);
         }
       });
+      socket.on('drawing', msg => {
+        this.$refs['board'].onDrawing(msg);
+      });
     },
     getMsgSide(id) {
       return id === socket.id ? 'right' : 'left';
@@ -237,7 +240,6 @@ export default {
       socket.emit('message', msg, () => {
         console.log('send success!');
       });
-      this.$refs['board'].sendMsg(msg);
 
       // emit('...', params, callback)
       // socket.emit('chat', msg, () => {
@@ -246,6 +248,9 @@ export default {
       // });
       this.insertMsg(msg);
       this.message = '';
+    },
+    handleDraw(data) {
+      socket.emit('drawing', data);
     },
   },
 };
