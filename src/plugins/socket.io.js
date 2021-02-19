@@ -4,7 +4,7 @@ function SocketIO() {
   this.connect = ({ userName, namespace = '', room }) =>
     new Promise((resolve, reject) => {
       console.log('WS_URL: ', process.env.VUE_APP_WS_URL);
-      const socket = io(`${process.env.VUE_APP_WS_URL}/${namespace}`, {
+      const socket = io(`${process.env.VUE_APP_WS_URL || window.location.origin}/${namespace}`, {
         query: {
           room: room || 'public',
           userId: `client_${Math.random()}`,
