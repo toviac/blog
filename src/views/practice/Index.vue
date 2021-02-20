@@ -10,11 +10,11 @@ import ArticleCard from '@/components/ArticleCard.vue';
 const list = [
   {
     author: 'admin',
-    createTime: '2021-02-11',
+    createTime: '2021-02-20',
     id: 'drawsomething',
     component: 'DrawSomething',
     title: '你画我猜',
-    updateTime: '2021-02-11',
+    updateTime: '2021-02-20',
   },
   {
     author: 'admin',
