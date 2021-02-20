@@ -1,6 +1,6 @@
 <template>
   <div class="about-me">
-    <iframe src="https://www.doco.dev/upload/resume.pdf" frameborder="0"></iframe>
+    <iframe src="https://www.doco.vip/upload/resume.pdf" frameborder="0"></iframe>
   </div>
 </template>
 
