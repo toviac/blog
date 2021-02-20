@@ -1,6 +1,6 @@
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 
-module.exports = {
+const config = {
   publicPath: '/',
   outputDir: 'dist',
   productionSourceMap: false,
@@ -8,8 +8,8 @@ module.exports = {
     port: 3333,
     proxy: {
       '/api': {
-        target: 'https://doco.dev',
-        // target: 'http://localhost:7001',
+        // target: 'https://doco.dev',
+        target: 'http://localhost:7001',
         // 开启跨域
         changeOrigin: true,
       },
@@ -34,15 +34,21 @@ module.exports = {
     },
   },
   configureWebpack: {
-    plugins: [
-      new FileManagerPlugin({
-        events: {
-          onEnd: {
-            delete: ['./dist.zip'],
-            archive: [{ source: './dist', destination: './dist.zip' }],
-          },
-        },
-      }),
-    ],
+    plugins: [],
   },
 };
+
+if (process.env.NODE_ENV === 'production') {
+  config.configureWebpack.plugins.push(
+    new FileManagerPlugin({
+      events: {
+        onEnd: {
+          delete: ['./dist.zip'],
+          archive: [{ source: './dist', destination: './dist.zip' }],
+        },
+      },
+    }),
+  );
+}
+
+module.exports = config;
