@@ -48,6 +48,14 @@ const list = [
     title: '绚丽小球',
     updateTime: '2019-01-28',
   },
+  {
+    author: 'admin',
+    createTime: '2018-01-28',
+    id: '2048',
+    component: '2048',
+    title: '2048',
+    updateTime: '2019-01-28',
+  },
 ];
 
 export { list };
