@@ -1,5 +1,5 @@
 const disableLog = () => {
-  if (process.env.NODE_ENV === 'product') {
+  if (process.env.NODE_ENV === 'production') {
     console.log = () => {};
   }
 };
