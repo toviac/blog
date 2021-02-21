@@ -14,6 +14,7 @@
     "echarts": "^5.0.1",
     "element-ui": "^2.15.0",
     "highlight.js": "^10.5.0",
+    "jquery": "^3.2.1",
     "marked": "^1.2.9",
     "nprogress": "^0.2.0",
     "register-service-worker": "^1.7.1",
