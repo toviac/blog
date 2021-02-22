@@ -16,6 +16,7 @@ import {
   RadioGroup,
   Radio,
   Message,
+  MessageBox,
 } from 'element-ui';
 
 // Vue.use(ElementUI);
@@ -34,3 +35,4 @@ Vue.use(Radio);
 Vue.use(Loading);
 
 Vue.prototype.$message = Message;
+Vue.prototype.$alert = MessageBox.alert;
