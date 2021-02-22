@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import throttle from 'lodash.throttle';
+
 export default {
   props: {
     userName: {
@@ -88,20 +90,9 @@ export default {
       this.current.x = e.offsetX || e.touches[0].offsetX;
       this.current.y = e.offsetY || e.touches[0].offsetY;
     },
-    throttle(callback, delay = 10) {
-      let previousCall = new Date().getTime();
-      return function() {
-        const time = new Date().getTime();
-
-        if (time - previousCall >= delay) {
-          previousCall = time;
-          callback.apply(null, arguments);
-        }
-      };
-    },
-    throttleMouseMove(e) {
-      this.throttle(this.onMouseMove(e));
-    },
+    throttleMouseMove: throttle(function(e) {
+      this.onMouseMove(e);
+    }, 10),
     onDrawing({ x0, y0, x1, y1, color }) {
       const w = this.canvas.width;
       const h = this.canvas.height;

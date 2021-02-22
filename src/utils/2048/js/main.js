@@ -1,7 +1,9 @@
 /* eslint-disable */
+import throttle from 'lodash.throttle';
 const $ = require('jquery');
+
 var keyMonitor = function () {
-  $(document).keydown(function (event) {
+  var keyAction = function(event) {
     var e = event || window.event;
     var k = e.keyCode || e.which;
     switch (k) {
@@ -26,7 +28,10 @@ var keyMonitor = function () {
         isTriggered();
         break;
     }
-  });
+  };
+  $(document).keydown(throttle(function (event) {
+    keyAction(event);
+  }, 300));
 };
 var board = new Array(),
   len = 4,
