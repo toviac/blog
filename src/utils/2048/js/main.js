@@ -333,7 +333,7 @@ var gameResult = function (result) { //显示游戏结果,胜利传入0,失败�
       `<div class="show-result">
 <div class="game-over">
 <p>Game Over!</p>
-<button class="try-again" onclick="init()">Try Again</button>
+<button class="try-again">Try Again</button>
 </div>
 </div>`);
   } else {
@@ -341,10 +341,11 @@ var gameResult = function (result) { //显示游戏结果,胜利传入0,失败�
       `<div class="show-result">
 <div class="you-win">
 <p>You Win!</p>
-<button class="try-again" onclick="init()">Play Again</button>
+<button class="try-again">Play Again</button>
 </div>
 </div>`);
   }
+  $('.show-result .try-again').on('click', init);
 }
 
 // init();
