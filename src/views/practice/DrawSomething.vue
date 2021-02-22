@@ -46,13 +46,20 @@
             </el-input>
           </el-form-item>
         </el-form>
-        <h3>聊天记录:</h3>
+        <!-- <h3>聊天记录:</h3>
         <el-scrollbar ref="logScrollbar" class="logs">
           <chat-bubble v-for="(item, index) in msgList" :key="index" :data="item" :side="getMsgSide(item.id)">
           </chat-bubble>
-        </el-scrollbar>
+        </el-scrollbar> -->
         <!-- canvas -->
-        <drawing-board ref="board" :user-name="userName" @drawing="handleDraw"></drawing-board>
+        <drawing-board
+          ref="board"
+          :user-name="curUserName"
+          :key-word="keyWord"
+          @start-game="handleStart"
+          @drawing="handleDraw"
+          @clear="handleClear"
+        ></drawing-board>
       </div>
     </div>
     <el-card v-show="socketUserId" class="side-area">
@@ -75,13 +82,13 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex';
 import socket from '@/plugins/socket.io';
-import ChatBubble from '@/components/practice/ChatBubble.vue';
+// import ChatBubble from '@/components/practice/ChatBubble.vue';
 import defaultAvatar from '@/assets/images/default_avatar.jpg';
 import DrawingBoard from '@/components/practice/DrawingBoard.vue';
 
 export default {
   components: {
-    ChatBubble,
+    // ChatBubble,
     DrawingBoard,
   },
   data() {
@@ -100,29 +107,31 @@ export default {
         userNameInput: [{ validator: this.checkNickname, trigger: 'submit' }],
         messageInput: [{ validator: this.checkMessage, trigger: 'submit' }],
       },
+      curUserName: '',
+      keyWord: '',
     };
   },
   computed: {
     ...mapGetters('socket', ['socketUserId', 'socketUserName']),
   },
   watch: {
-    msgList() {
-      this.$nextTick(() => {
-        const wrap = document.querySelector('.logs .el-scrollbar__wrap');
-        const view = document.querySelector('.logs .el-scrollbar__wrap .el-scrollbar__view');
-        const bottomOffset = view.clientHeight - wrap.clientHeight;
-        const distance = bottomOffset - wrap.scrollTop;
-        if (!wrap || !(distance > 0)) return;
-        const step = () => {
-          // 增量小于1的话不会移动
-          wrap.scrollTop += Math.ceil(distance / 30);
-          if (wrap.scrollTop < bottomOffset) {
-            requestAnimationFrame(step);
-          }
-        };
-        requestAnimationFrame(step);
-      });
-    },
+    // msgList() {
+    //   this.$nextTick(() => {
+    //     const wrap = document.querySelector('.logs .el-scrollbar__wrap');
+    //     const view = document.querySelector('.logs .el-scrollbar__wrap .el-scrollbar__view');
+    //     const bottomOffset = view.clientHeight - wrap.clientHeight;
+    //     const distance = bottomOffset - wrap.scrollTop;
+    //     if (!wrap || !(distance > 0)) return;
+    //     const step = () => {
+    //       // 增量小于1的话不会移动
+    //       wrap.scrollTop += Math.ceil(distance / 30);
+    //       if (wrap.scrollTop < bottomOffset) {
+    //         requestAnimationFrame(step);
+    //       }
+    //     };
+    //     requestAnimationFrame(step);
+    //   });
+    // },
   },
   created() {},
   mounted() {},
@@ -211,8 +220,20 @@ export default {
           this.insertMsg(msg);
         }
       });
+      socket.on('game-start', data => {
+        this.curUserName = data.userName;
+      });
+      socket.on('key', msg => {
+        this.keyWord = msg;
+      });
       socket.on('drawing', msg => {
         this.$refs['board'].onDrawing(msg);
+      });
+      socket.on('clear', () => {
+        this.$refs['board'].clearRect();
+      });
+      socket.on('won', userName => {
+        this.$alert(`${userName} has won this Game!`);
       });
     },
     getMsgSide(id) {
@@ -249,8 +270,16 @@ export default {
       this.insertMsg(msg);
       this.message = '';
     },
+    handleStart() {
+      socket.emit('start', data => {
+        console.log('game-start! ', data);
+      });
+    },
     handleDraw(data) {
       socket.emit('drawing', data);
+    },
+    handleClear() {
+      socket.emit('clear');
     },
   },
 };

@@ -1,12 +1,15 @@
 <!-- 你画我猜: 画板 -->
 <template>
   <div class="drawing-board">
-    <div class="msg"></div>
-    <div class="msg">{{ message }}</div>
+    <!-- <div class="msg"></div> -->
+    <div class="msg">
+      <span>{{ message }}</span>
+      <el-button v-if="this.keyWord || !this.userName" @click="btnClick">{{ btnTxt }}</el-button>
+    </div>
     <canvas
       id="board-canvas"
-      width="500"
-      height="500"
+      :width="canvasWidth"
+      :height="canvasHeight"
       style="border: 1px solid #999;"
       @mousedown="onMouseDown"
       @mouseup="onMouseUp"
@@ -25,6 +28,10 @@ import throttle from 'lodash.throttle';
 
 export default {
   props: {
+    keyWord: {
+      type: String,
+      default: '',
+    },
     userName: {
       type: String,
       default: '',
@@ -35,9 +42,8 @@ export default {
     return {
       ctx: null,
       canvas: null,
-      canvasWidth: 500,
-      canvasHeight: 500,
-      message: '',
+      canvasWidth: 700,
+      canvasHeight: 700,
       current: {
         x: 0,
         y: 0,
@@ -46,26 +52,49 @@ export default {
       drawing: false,
     };
   },
-  computed: {},
+  computed: {
+    message() {
+      if (this.keyWord) return this.keyWord;
+      if (this.userName) return `${this.userName} is drawing...`;
+      return 'Game is not started';
+    },
+    btnTxt() {
+      if (this.keyWord) return 'Clear';
+      return 'Start';
+    },
+  },
   watch: {},
   created() {},
   mounted() {
     this.initCanvas();
   },
   methods: {
+    btnClick() {
+      if (!this.keyWord && !this.userName) {
+        this.$emit('start-game');
+        return;
+      }
+      return this.$emit('clear');
+    },
     initCanvas() {
       const canvas = document.querySelector('#board-canvas');
       this.ctx = canvas.getContext('2d');
       this.ctx.strokeSyle = this.color;
       this.ctx.lineWidth = 2;
       this.canvas = canvas;
+      const el = document.querySelector('.drawing-board');
+      const width = el.clientWidth;
+      canvas.width = width - 2;
+      canvas.height = width - 2;
     },
     onMouseDown(e) {
+      if (!this.keyWord) return;
       this.drawing = true;
       this.current.x = e.offsetX || e.touches[0].offsetX;
       this.current.y = e.offsetY || e.touches[0].offsetY;
     },
     onMouseUp(e) {
+      if (!this.keyWord) return;
       if (!this.drawing) return;
       this.drawing = false;
       this.drawLine(
@@ -78,6 +107,7 @@ export default {
       );
     },
     onMouseMove(e) {
+      if (!this.keyWord) return;
       if (!this.drawing) return;
       this.drawLine(
         this.current.x,
@@ -124,4 +154,12 @@ export default {
   },
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.drawing-board {
+  .msg {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+}
+</style>
