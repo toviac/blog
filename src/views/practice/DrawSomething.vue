@@ -60,6 +60,7 @@
           @drawing="handleDraw"
           @clear="handleClear"
         ></drawing-board>
+        <span>提示: {{ hint }}</span>
       </div>
     </div>
     <el-card v-show="socketUserId" class="side-area">
@@ -99,6 +100,7 @@ export default {
       btnLoading: false,
       userName: '',
       message: '',
+      hint: '',
       msgList: [],
       onlineList: [],
       // [Element Warn][Form]model is required for validate to work!
@@ -225,6 +227,9 @@ export default {
       });
       socket.on('key', msg => {
         this.keyWord = msg;
+      });
+      socket.on('key-length', msg => {
+        this.hint = `${msg}个字`;
       });
       socket.on('drawing', msg => {
         this.$refs['board'].onDrawing(msg);
