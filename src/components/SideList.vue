@@ -74,7 +74,7 @@ export default {
   }
   .side-card {
     position: sticky;
-    top: 20px;
+    top: 10px;
     .el-card__body {
       display: flex;
       flex-direction: column;

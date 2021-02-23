@@ -47,25 +47,24 @@
           </el-form-item>
         </el-form>
         <h3>聊天记录:</h3>
-        <el-scrollbar ref="logScrollbar" class="logs">
+        <div ref="logScrollbar" class="side-bar-scroll logs">
           <chat-bubble v-for="(item, index) in msgList" :key="index" :data="item" :side="getMsgSide(item.id)">
           </chat-bubble>
-        </el-scrollbar>
+        </div>
       </div>
     </div>
     <el-card v-show="socketUserId" class="side-area">
       <span slot="header"
         >在线列表 <span v-show="onlineList.length">({{ onlineList.length }})</span></span
       >
-      <el-scrollbar>
-        <!-- <div v-for="item in onlineList" :key="item.id" class="online-item"> -->
+      <div class="side-bar-scroll online-list">
         <div v-for="item in onlineList" :key="item.index" class="online-item">
           <img :src="item.userInfo.avatar || defaultAvatar" alt="" class="avatar" />
           <span class="user-name">
             {{ item.userInfo.userName }}
           </span>
         </div>
-      </el-scrollbar>
+      </div>
     </el-card>
   </div>
 </template>
@@ -104,19 +103,8 @@ export default {
   watch: {
     msgList() {
       this.$nextTick(() => {
-        const wrap = document.querySelector('.logs .el-scrollbar__wrap');
-        const view = document.querySelector('.logs .el-scrollbar__wrap .el-scrollbar__view');
-        const bottomOffset = view.clientHeight - wrap.clientHeight;
-        const distance = bottomOffset - wrap.scrollTop;
-        if (!wrap || !(distance > 0)) return;
-        const step = () => {
-          // 增量小于1的话不会移动
-          wrap.scrollTop += Math.ceil(distance / 30);
-          if (wrap.scrollTop < bottomOffset) {
-            requestAnimationFrame(step);
-          }
-        };
-        requestAnimationFrame(step);
+        const bubbleList = document.querySelectorAll('.chat-bubble');
+        bubbleList[bubbleList.length - 1].scrollIntoView({ behavior: 'smooth' });
       });
     },
   },
@@ -259,6 +247,23 @@ export default {
   grid-template-areas: 'main side';
   grid-template-columns: calc(100% - 320px) 300px;
   grid-column-gap: 20px;
+  .side-bar-scroll {
+    padding: 5px;
+    box-shadow: inset 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: scroll;
+  }
+  .online-list {
+    height: 200px;
+  }
+
+  .logs {
+    flex-grow: 1;
+    // 解决元素被子元素撑开的问题
+    height: 0;
+    margin-top: 20px;
+    box-shadow: inset 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  }
   .main-area {
     position: relative;
     grid-area: main;
@@ -340,16 +345,6 @@ export default {
     .el-card__body {
       flex-grow: 1;
       position: relative;
-      .el-scrollbar {
-        height: auto;
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        right: 20px;
-        bottom: 20px;
-        border-radius: 4px;
-        box-shadow: inset 0 2px 6px 0 rgba(0, 0, 0, 0.1);
-      }
     }
     .online-item {
       display: flex;

@@ -146,6 +146,13 @@ export default {
     height: 100vh;
     user-select: none;
     transition: all ease-in-out 1.5s;
+    & {
+      -ms-overflow-style: none;
+      overflow: -moz-scrollbars-none;
+      &::-webkit-scrollbar {
+        width: 0 !important;
+      }
+    }
     &.scroll-top {
       transform: translateY(-200vh);
     }
@@ -321,35 +328,6 @@ export default {
     margin: 0 auto;
     height: 100vh;
     background-color: #fff;
-    .scroll-bar {
-      flex-grow: 1;
-      width: 100%;
-      .el-scrollbar__wrap {
-        // 元素自带-17px, don't know why
-        // 为了隐藏系统scrollbar, 下面的样式firefox,ie兼容性不佳
-        margin-bottom: 0 !important;
-        margin-right: 0 !important;
-        &::-webkit-scrollbar {
-          display: none;
-        }
-      }
-      .el-scrollbar__view {
-        // scrollbar最内层元素
-        padding: 10px;
-        .grid-layout {
-          width: 1040px;
-          max-width: 100%;
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: calc(100% - 320px) 300px;
-          grid-column-gap: 20px;
-          grid-template-areas: 'main side';
-          .side-list {
-            grid-area: side;
-          }
-        }
-      }
-    }
   }
 }
 </style>

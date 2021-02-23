@@ -87,7 +87,6 @@ export default {
       // 减去message高度
       const height = el.clientHeight - 45;
       const min = Math.min(width, height);
-      console.log('min: ', min);
       canvas.width = min - 2;
       canvas.height = min - 2;
     },

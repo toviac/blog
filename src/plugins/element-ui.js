@@ -8,7 +8,6 @@ import {
   Input,
   ButtonGroup,
   Button,
-  Scrollbar,
   Dialog,
   Loading,
   Form,
@@ -26,7 +25,6 @@ Vue.use(MenuItem);
 Vue.use(Input);
 Vue.use(ButtonGroup);
 Vue.use(Button);
-Vue.use(Scrollbar);
 Vue.use(Dialog);
 Vue.use(Form);
 Vue.use(FormItem);

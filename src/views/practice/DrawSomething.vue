@@ -29,29 +29,6 @@
       </transition>
       <h1>你画我猜</h1>
       <div class="repeater-body">
-        <el-form
-          ref="messageForm"
-          :model="emptyForm"
-          :rules="rules"
-          @submit.native.prevent="submitForm('messageForm', sendMsg)"
-        >
-          <h3 slot="label">
-            输入:
-          </h3>
-          <el-form-item prop="messageInput">
-            <el-input v-model="message" placeholder="请输入消息">
-              <el-button slot="append" @click="submitForm('messageForm', sendMsg)">
-                发送
-              </el-button>
-            </el-input>
-          </el-form-item>
-        </el-form>
-        <!-- <h3>聊天记录:</h3>
-        <el-scrollbar ref="logScrollbar" class="logs">
-          <chat-bubble v-for="(item, index) in msgList" :key="index" :data="item" :side="getMsgSide(item.id)">
-          </chat-bubble>
-        </el-scrollbar> -->
-        <!-- canvas -->
         <drawing-board
           ref="board"
           :user-name="curUserName"
@@ -60,22 +37,44 @@
           @drawing="handleDraw"
           @clear="handleClear"
         ></drawing-board>
-        <span v-if="!keyWord">提示: {{ hint }}</span>
       </div>
     </div>
     <el-card v-show="socketUserId" class="side-area">
       <span slot="header"
         >在线列表 <span v-show="onlineList.length">({{ onlineList.length }})</span></span
       >
-      <el-scrollbar>
-        <!-- <div v-for="item in onlineList" :key="item.id" class="online-item"> -->
+      <div class="side-bar-scroll online-list">
         <div v-for="item in onlineList" :key="item.index" class="online-item">
           <img :src="item.userInfo.avatar || defaultAvatar" alt="" class="avatar" />
           <span class="user-name">
             {{ item.userInfo.userName }}
           </span>
         </div>
-      </el-scrollbar>
+      </div>
+
+      <div ref="logScrollbar" class="side-bar-scroll logs">
+        <chat-bubble v-for="(item, index) in msgList" :key="index" :data="item" :side="getMsgSide(item.id)">
+        </chat-bubble>
+      </div>
+
+      <el-form
+        ref="messageForm"
+        :model="emptyForm"
+        :rules="rules"
+        @submit.native.prevent="submitForm('messageForm', sendMsg)"
+      >
+        <h3 slot="label">
+          输入:
+        </h3>
+        <el-form-item prop="messageInput">
+          <el-input v-model="message" placeholder="请输入消息">
+            <el-button slot="append" @click="submitForm('messageForm', sendMsg)">
+              发送
+            </el-button>
+          </el-input>
+        </el-form-item>
+      </el-form>
+      <span v-if="!keyWord && hint.length > 2" class="hint">提示: {{ hint }}</span>
     </el-card>
   </div>
 </template>
@@ -83,13 +82,13 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex';
 import socket from '@/plugins/socket.io';
-// import ChatBubble from '@/components/practice/ChatBubble.vue';
+import ChatBubble from '@/components/practice/ChatBubble.vue';
 import defaultAvatar from '@/assets/images/default_avatar.jpg';
 import DrawingBoard from '@/components/practice/DrawingBoard.vue';
 
 export default {
   components: {
-    // ChatBubble,
+    ChatBubble,
     DrawingBoard,
   },
   data() {
@@ -103,7 +102,6 @@ export default {
       hint: '',
       msgList: [],
       onlineList: [],
-      // [Element Warn][Form]model is required for validate to work!
       emptyForm: {},
       rules: {
         userNameInput: [{ validator: this.checkNickname, trigger: 'submit' }],
@@ -117,28 +115,17 @@ export default {
     ...mapGetters('socket', ['socketUserId', 'socketUserName']),
   },
   watch: {
-    // msgList() {
-    //   this.$nextTick(() => {
-    //     const wrap = document.querySelector('.logs .el-scrollbar__wrap');
-    //     const view = document.querySelector('.logs .el-scrollbar__wrap .el-scrollbar__view');
-    //     const bottomOffset = view.clientHeight - wrap.clientHeight;
-    //     const distance = bottomOffset - wrap.scrollTop;
-    //     if (!wrap || !(distance > 0)) return;
-    //     const step = () => {
-    //       // 增量小于1的话不会移动
-    //       wrap.scrollTop += Math.ceil(distance / 30);
-    //       if (wrap.scrollTop < bottomOffset) {
-    //         requestAnimationFrame(step);
-    //       }
-    //     };
-    //     requestAnimationFrame(step);
-    //   });
-    // },
+    msgList() {
+      this.$nextTick(() => {
+        const bubbleList = document.querySelectorAll('.chat-bubble');
+        bubbleList[bubbleList.length - 1].scrollIntoView({ behavior: 'smooth' });
+      });
+    },
   },
   created() {},
   mounted() {},
   beforeDestroy() {
-    this.socket.close();
+    this.socket && this.socket.close();
     console.log('socket closed');
     this.updateSocketUserId('');
     this.updateSocketUserName('');
@@ -366,7 +353,6 @@ export default {
     .logs {
       // flex-grow: 1;
       height: 300px;
-      box-shadow: inset 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     }
   }
   .side-area {
@@ -381,16 +367,26 @@ export default {
     }
     .el-card__body {
       flex-grow: 1;
+      display: flex;
+      flex-direction: column;
       position: relative;
-      .el-scrollbar {
-        height: auto;
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        right: 20px;
-        bottom: 20px;
+
+      .side-bar-scroll {
+        padding: 5px;
+        box-shadow: inset 0 2px 12px 0 rgba(0, 0, 0, 0.1);
         border-radius: 4px;
-        box-shadow: inset 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+        overflow: scroll;
+      }
+      .online-list {
+        height: 200px;
+      }
+
+      .logs {
+        flex-grow: 1;
+        // 解决元素被子元素撑开的问题
+        height: 0;
+        margin-top: 20px;
+        box-shadow: inset 0 2px 12px 0 rgba(0, 0, 0, 0.1);
       }
     }
     .online-item {
@@ -424,6 +420,16 @@ export default {
       }
       &:nth-child(n + 2) {
         border-top: none;
+      }
+    }
+    .hint {
+      flex-shrink: 0;
+    }
+    .el-form {
+      flex-shrink: 0;
+      margin-top: 10px;
+      .el-form-item {
+        margin-bottom: 0;
       }
     }
   }
