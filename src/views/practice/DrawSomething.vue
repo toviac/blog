@@ -60,7 +60,7 @@
           @drawing="handleDraw"
           @clear="handleClear"
         ></drawing-board>
-        <span>提示: {{ hint }}</span>
+        <span v-if="!keyWord">提示: {{ hint }}</span>
       </div>
     </div>
     <el-card v-show="socketUserId" class="side-area">
