@@ -346,6 +346,9 @@ export default {
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      .el-form {
+        flex-shrink: 0;
+      }
     }
     .el-input-group__append {
       .el-button {

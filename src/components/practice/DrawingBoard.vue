@@ -4,7 +4,7 @@
     <!-- <div class="msg"></div> -->
     <div class="msg">
       <span>{{ message }}</span>
-      <el-button v-if="this.keyWord || !this.userName" @click="btnClick">{{ btnTxt }}</el-button>
+      <el-button v-if="this.keyWord || !this.userName" size="mini" @click="btnClick">{{ btnTxt }}</el-button>
     </div>
     <canvas
       id="board-canvas"
@@ -42,8 +42,8 @@ export default {
     return {
       ctx: null,
       canvas: null,
-      canvasWidth: 700,
-      canvasHeight: 700,
+      canvasWidth: 500,
+      canvasHeight: 500,
       current: {
         x: 0,
         y: 0,
@@ -84,8 +84,12 @@ export default {
       this.canvas = canvas;
       const el = document.querySelector('.drawing-board');
       const width = el.clientWidth;
-      canvas.width = width - 2;
-      canvas.height = width - 2;
+      // 减去message高度
+      const height = el.clientHeight - 45;
+      const min = Math.min(width, height);
+      console.log('min: ', min);
+      canvas.width = min - 2;
+      canvas.height = min - 2;
     },
     onMouseDown(e) {
       if (!this.keyWord) return;
@@ -156,7 +160,12 @@ export default {
 </script>
 <style lang="scss">
 .drawing-board {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   .msg {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
