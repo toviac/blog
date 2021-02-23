@@ -14,19 +14,20 @@ html {
   color: #2c3e50;
 }
 
-/* hide scroll-bar in Chrome */
-body::-webkit-scrollbar {
-  display: none;
-}
-/* hide scroll-bar in IE/EDGE */
-body {
-  -ms-overflow-style: none;
-}
-/* hide scroll-bar in FireFox */
-html,
-.el-scrollbar {
-  overflow: -moz-hidden-unscrollable !important; /*注意！若只打 hidden，chrome 的其它 hidden 会出问题*/
-  height: 100%;
+html {
+  * {
+    &::-webkit-resizer, &::-webkit-scrollbar-thumb {
+      background: #aaa;
+      border-radius: 3px;
+    }
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    &::-webkit-scrollbar-corner, &::-webkit-scrollbar-track {
+      background: 0 0;
+    }
+  }
 }
 
 *,
@@ -79,8 +80,4 @@ a:-webkit-any-link {
 }
 .layout-enter, .layout-leave-active {
   opacity: 0
-}
-
-.nuxt-progress {
-  z-index: 10;
 }

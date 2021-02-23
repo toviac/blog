@@ -6,7 +6,7 @@ import router from './router';
 import store from './store';
 import axios from '@/plugins/http';
 
-import '@/assets/css/common.css';
+import '@/assets/css/common.scss';
 import 'element-ui/lib/theme-chalk/index.css';
 
 import '@/plugins/element-ui.js';
