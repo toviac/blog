@@ -1,6 +1,3 @@
-const FileManagerPlugin = require('filemanager-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
 const config = {
   publicPath: '/',
   outputDir: 'dist',
@@ -36,6 +33,7 @@ const config = {
   },
   chainWebpack: config => {
     if (process.env.NODE_ENV === 'ayalyze') {
+      const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
       config.plugin('webpack-bundle-analyzer').use(BundleAnalyzerPlugin);
     }
   },
@@ -45,6 +43,7 @@ const config = {
 };
 
 if (process.env.NODE_ENV === 'production' && process.env.MODE !== 'deploy') {
+  const FileManagerPlugin = require('filemanager-webpack-plugin');
   config.configureWebpack.plugins.push(
     new FileManagerPlugin({
       events: {

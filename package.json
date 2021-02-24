@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "deploy": "MODE=deploy vue-cli-service build",
+    "deploy": "cross-env MODE=deploy vue-cli-service build",
     "lint": "vue-cli-service lint",
     "analyz": "NODE_ENV=ayalyze npm_config_report=true npm run build"
   },
