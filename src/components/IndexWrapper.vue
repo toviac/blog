@@ -146,13 +146,6 @@ export default {
     height: 100vh;
     user-select: none;
     transition: all ease-in-out 1.5s;
-    & {
-      -ms-overflow-style: none;
-      overflow: -moz-scrollbars-none;
-      &::-webkit-scrollbar {
-        width: 0 !important;
-      }
-    }
     &.scroll-top {
       transform: translateY(-200vh);
     }

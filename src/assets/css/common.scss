@@ -15,6 +15,14 @@ html {
 }
 
 html {
+  // 防止首页出现滚动条
+  body {
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
   * {
     &::-webkit-resizer, &::-webkit-scrollbar-thumb {
       background: #aaa;
