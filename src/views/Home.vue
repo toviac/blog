@@ -44,6 +44,7 @@ export default {
     width: 100vw;
     height: calc(100vh - 60px);
     overflow: scroll;
+    overflow-x: hidden;
   }
   .grid-layout {
     width: 1040px;
