@@ -35,7 +35,7 @@ const config = {
     },
   },
   chainWebpack: config => {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'ayalyze') {
       config.plugin('webpack-bundle-analyzer').use(BundleAnalyzerPlugin);
     }
   },
@@ -44,7 +44,7 @@ const config = {
   },
 };
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && process.env.MODE !== 'deploy') {
   config.configureWebpack.plugins.push(
     new FileManagerPlugin({
       events: {
