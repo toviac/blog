@@ -216,6 +216,7 @@ export default {
         this.keyWord = msg;
       });
       socket.on('key-length', msg => {
+        this.keyWord = '';
         this.hint = `${msg}个字`;
       });
       socket.on('drawing', msg => {

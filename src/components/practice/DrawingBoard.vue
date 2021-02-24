@@ -93,8 +93,8 @@ export default {
     onMouseDown(e) {
       if (!this.keyWord) return;
       this.drawing = true;
-      this.current.x = e.offsetX || e.touches[0].offsetX;
-      this.current.y = e.offsetY || e.touches[0].offsetY;
+      this.current.x = e.offsetX || (e.touches && e.touches[0].offsetX);
+      this.current.y = e.offsetY || (e.touches && e.touches[0].offsetY);
     },
     onMouseUp(e) {
       if (!this.keyWord) return;
@@ -103,8 +103,8 @@ export default {
       this.drawLine(
         this.current.x,
         this.current.y,
-        e.offsetX || e.touches[0].offsetX,
-        e.offsetY || e.touches[0].offsetY,
+        e.offsetX || (e.touches && e.touches[0].offsetX),
+        e.offsetY || (e.touches && e.touches[0].offsetY),
         this.current.color,
         true,
       );
@@ -152,7 +152,7 @@ export default {
       });
     },
     clearRect() {
-      this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
   },
 };
