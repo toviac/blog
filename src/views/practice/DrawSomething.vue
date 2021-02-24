@@ -379,11 +379,13 @@ export default {
         overflow: scroll;
       }
       .online-list {
-        height: 200px;
+        min-height: 65px;
+        max-height: calc(100vh / 6);
       }
 
       .logs {
         flex-grow: 1;
+        flex-shrink: 0;
         // 解决元素被子元素撑开的问题
         height: 0;
         margin-top: 20px;
