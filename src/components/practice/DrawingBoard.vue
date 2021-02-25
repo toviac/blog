@@ -111,7 +111,6 @@ export default {
             r = r + this.current.lineWidth / 60;
             this.drawDot(x, y, r, this.current.color, true);
             if (r < this.current.lineWidth * 1.5 && this.drawingDot) {
-              console.log('=> ', r < this.current.lineWidth * 1.5);
               requestAnimationFrame(draw);
             }
           };
@@ -212,6 +211,7 @@ export default {
       this.ctx.fill();
       this.ctx.closePath();
       this.step.push({ x, y, radius, color });
+
       if (!emit) return;
       var w = this.canvas.width;
       var h = this.canvas.height;
@@ -225,6 +225,9 @@ export default {
     },
     clearRect() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+    reset() {
+      this.clearRect();
       this.step = [];
       this.stepList = [];
     },

@@ -213,6 +213,7 @@ export default {
         }
       });
       socket.on('game-start', data => {
+        this.$refs['board'].reset();
         this.curUserName = data.userName;
       });
       socket.on('key', msg => {
@@ -235,7 +236,7 @@ export default {
         this.$refs['board'].onUndo(msg);
       });
       socket.on('clear', () => {
-        this.$refs['board'].clearRect();
+        this.$refs['board'].reset();
       });
       socket.on('won', userName => {
         this.$alert(`${userName} has won this Game!`);
