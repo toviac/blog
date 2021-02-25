@@ -167,7 +167,6 @@ export default {
     // 单次绘制结束
     onDrawEnd() {
       this.stepList.push(this.step);
-      console.log('draw-end: ', this.step, this.stepList);
       this.step = [];
     },
     onUndo() {

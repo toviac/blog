@@ -412,6 +412,11 @@ export default {
         height: 0;
         margin-top: 20px;
         box-shadow: inset 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        .chat-bubble .detail {
+          max-width: 100%;
+          margin-left: 0;
+          margin-right: 10px;
+        }
       }
     }
     .online-item {

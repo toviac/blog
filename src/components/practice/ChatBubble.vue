@@ -96,6 +96,7 @@ export default {
     }
   }
   .avatar {
+    flex-shrink: 0;
     width: 50px;
     height: 50px;
     border: 2px solid #fff;
