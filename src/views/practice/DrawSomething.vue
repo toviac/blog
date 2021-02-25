@@ -34,6 +34,9 @@
           :user-name="curUserName"
           :key-word="keyWord"
           @start-game="handleStart"
+          @undo="handleUndo"
+          @draw-end="handleDrawEnd"
+          @drawing-dot="handleDrawingDot"
           @drawing="handleDraw"
           @clear="handleClear"
         ></drawing-board>
@@ -222,6 +225,15 @@ export default {
       socket.on('drawing', msg => {
         this.$refs['board'].onDrawing(msg);
       });
+      socket.on('drawing-dot', msg => {
+        this.$refs['board'].onDrawingDot(msg);
+      });
+      socket.on('draw-end', msg => {
+        this.$refs['board'].onDrawEnd(msg);
+      });
+      socket.on('undo', msg => {
+        this.$refs['board'].onUndo(msg);
+      });
       socket.on('clear', () => {
         this.$refs['board'].clearRect();
       });
@@ -267,6 +279,15 @@ export default {
       socket.emit('start', data => {
         console.log('game-start! ', data);
       });
+    },
+    handleUndo() {
+      socket.emit('undo');
+    },
+    handleDrawEnd() {
+      socket.emit('draw-end');
+    },
+    handleDrawingDot(data) {
+      socket.emit('drawing-dot', data);
     },
     handleDraw(data) {
       socket.emit('drawing', data);
