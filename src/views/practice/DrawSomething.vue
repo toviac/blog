@@ -26,6 +26,12 @@
             </el-form>
           </el-card>
         </div>
+        <div v-if="showWinMask" class="mask" @click="showWinMask = false">
+          <el-card class="win-card">
+            <h3>{{ winUserName }} has won!</h3>
+            <img class="win-image" :src="winImage" alt="" />
+          </el-card>
+        </div>
       </transition>
       <h1>你画我猜</h1>
       <div class="repeater-body">
@@ -112,6 +118,9 @@ export default {
       },
       curUserName: '',
       keyWord: '',
+      winUserName: '',
+      winImage: '',
+      showWinMask: false,
     };
   },
   computed: {
@@ -213,7 +222,6 @@ export default {
         }
       });
       socket.on('game-start', data => {
-        this.$refs['board'].reset();
         this.curUserName = data.userName;
       });
       socket.on('key', msg => {
@@ -239,7 +247,10 @@ export default {
         this.$refs['board'].reset();
       });
       socket.on('won', userName => {
-        this.$alert(`${userName} has won this Game!`);
+        this.winImage = this.$refs['board'].getCanvasImage();
+        this.winUserName = userName;
+        this.showWinMask = true;
+        this.$refs['board'].reset();
       });
     },
     getMsgSide(id) {
@@ -349,6 +360,12 @@ export default {
         }
         .el-button {
           margin-top: 10px;
+        }
+      }
+      .win-card {
+        width: 90%;
+        .win-image {
+          width: 100%;
         }
       }
     }

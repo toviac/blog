@@ -182,6 +182,11 @@ export default {
         });
       });
     },
+    getCanvasImage() {
+      this.ctx.font = '24px Comic Sans MS';
+      this.ctx.fillText(this.keyWord, 10, 30);
+      return this.canvas.toDataURL();
+    },
     drawLine(x0, y0, x1, y1, color, lineWidth, emit) {
       this.ctx.lineWidth = lineWidth;
       this.ctx.beginPath();
