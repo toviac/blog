@@ -28,7 +28,7 @@
         </div>
         <div v-if="showWinMask" class="mask" @click="showWinMask = false">
           <el-card class="win-card">
-            <h3>{{ winUserName }} has won!</h3>
+            <h3>{{ winUserName }} has won! (click mask to close)</h3>
             <img class="win-image" :src="winImage" alt="" />
           </el-card>
         </div>
