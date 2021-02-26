@@ -190,7 +190,7 @@ export default {
       this.ctx.strokeStyle = color;
       this.ctx.stroke();
       this.ctx.closePath();
-      this.step.push({ x0, y0, x1, y1, color });
+      this.step.push({ x0, y0, x1, y1, color, lineWidth });
 
       if (!emit) return;
       var w = this.canvas.width;
@@ -202,6 +202,7 @@ export default {
         x1: x1 / w,
         y1: y1 / h,
         color: color,
+        lineWidth,
       });
     },
     drawDot(x, y, radius, color = '#000', emit) {
