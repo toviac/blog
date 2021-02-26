@@ -7,8 +7,18 @@
     </div>
     <div class="msg" v-else>
       <span>{{ keyWord }}</span>
-      <el-button size="mini" @click="btnUndo">Undo</el-button>
-      <el-button size="mini" @click="btnClear">Clear</el-button>
+      <span class="btn-group">
+        <el-tag
+          v-for="(color, index) in colorList"
+          :key="index"
+          :class="{ selected: color === current.color }"
+          effect="dark"
+          :color="color"
+          @click="selectColor(color)"
+        ></el-tag>
+        <el-button size="mini" @click="btnUndo">Undo</el-button>
+        <el-button size="mini" @click="btnClear">Clear</el-button>
+      </span>
     </div>
     <canvas
       id="board-canvas"
@@ -51,11 +61,11 @@ export default {
       current: {
         x: 0,
         y: 0,
-        color: '#000000',
-        lineWidth: 2,
+        color: '#303133',
+        lineWidth: 4,
       },
       drawing: false,
-      drawingDot: false,
+      colorList: ['#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#409eff', '#303133'],
       step: [],
       stepList: [],
     };
@@ -76,10 +86,14 @@ export default {
       this.$emit('start-game');
     },
     btnUndo() {
+      if (!this.stepList.length) return;
       this.$emit('undo');
     },
     btnClear() {
       this.$emit('clear');
+    },
+    selectColor(color) {
+      this.current.color = color;
     },
     initCanvas() {
       const canvas = document.querySelector('#board-canvas');
@@ -98,54 +112,40 @@ export default {
     onMouseDown(e) {
       if (!this.keyWord) return;
       this.drawing = true;
-      this.drawingDot = true;
       this.current.x = e.offsetX || (e.touches && e.touches[0].offsetX);
       this.current.y = e.offsetY || (e.touches && e.touches[0].offsetY);
 
-      setTimeout(() => {
-        if (this.drawingDot) {
-          let r = this.current.lineWidth;
-          let x = this.current.x;
-          let y = this.current.y;
-          const draw = () => {
-            r = r + this.current.lineWidth / 60;
-            this.drawDot(x, y, r, this.current.color, true);
-            if (r < this.current.lineWidth * 1.5 && this.drawingDot) {
-              requestAnimationFrame(draw);
-            }
-          };
-          requestAnimationFrame(draw);
-        }
-      }, 300);
+      const x0 = this.current.x;
+      const y0 = this.current.y;
+
+      this.drawDot(x0, y0, this.current.lineWidth / 2, this.current.color, true);
     },
     onMouseUp(e) {
       if (!this.keyWord) return;
       if (!this.drawing) return;
       this.drawing = false;
-      this.drawingDot = false;
       this.drawLine(
         this.current.x,
         this.current.y,
         e.offsetX || (e.touches && e.touches[0].offsetX),
         e.offsetY || (e.touches && e.touches[0].offsetY),
         this.current.color,
+        this.current.lineWidth,
         true,
       );
+      this.drawDot(this.current.x, this.current.y, this.current.lineWidth / 2, this.current.color, true);
       this.$emit('draw-end');
     },
     onMouseMove(e) {
       if (!this.keyWord) return;
       if (!this.drawing) return;
-      if (this.drawingDot) {
-        this.drawingDot = false;
-        this.$emit('draw-end');
-      }
       this.drawLine(
         this.current.x,
         this.current.y,
         e.offsetX || e.touches[0].offsetX,
         e.offsetY || e.touches[0].offsetY,
         this.current.color,
+        this.current.lineWidth,
         true,
       );
       this.current.x = e.offsetX || e.touches[0].offsetX;
@@ -154,10 +154,10 @@ export default {
     throttleMouseMove: throttle(function(e) {
       this.onMouseMove(e);
     }, 10),
-    onDrawing({ x0, y0, x1, y1, color }) {
+    onDrawing({ x0, y0, x1, y1, color, lineWidth }) {
       const w = this.canvas.width;
       const h = this.canvas.height;
-      this.drawLine(x0 * w, y0 * h, x1 * w, y1 * h, color);
+      this.drawLine(x0 * w, y0 * h, x1 * w, y1 * h, color, lineWidth);
     },
     onDrawingDot({ x, y, radius, color }) {
       const w = this.canvas.width;
@@ -175,14 +175,15 @@ export default {
       this.stepList.forEach(step => {
         step.forEach(i => {
           if (i.x0 || i.y0) {
-            this.drawLine(i.x0, i.y0, i.x1, i.y1, i.color);
+            this.drawLine(i.x0, i.y0, i.x1, i.y1, i.color, i.lineWidth);
           } else {
             this.drawDot(i.x, i.y, i.radius, i.color);
           }
         });
       });
     },
-    drawLine(x0, y0, x1, y1, color, emit) {
+    drawLine(x0, y0, x1, y1, color, lineWidth, emit) {
+      this.ctx.lineWidth = lineWidth;
       this.ctx.beginPath();
       this.ctx.moveTo(x0, y0);
       this.ctx.lineTo(x1, y1);
@@ -244,6 +245,22 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    .btn-group {
+      display: flex;
+      .el-button {
+        margin-left: 10px;
+      }
+    }
+    .el-tag {
+      display: inline-block;
+      height: 28px;
+      line-height: 28px;
+      border-color: unset;
+      border-width: 4px;
+      &.selected {
+        border-color: #e4e7ed;
+      }
+    }
   }
 }
 </style>

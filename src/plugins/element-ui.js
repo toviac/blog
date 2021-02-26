@@ -16,6 +16,7 @@ import {
   Radio,
   Message,
   MessageBox,
+  Tag,
 } from 'element-ui';
 
 // Vue.use(ElementUI);
@@ -31,6 +32,7 @@ Vue.use(FormItem);
 Vue.use(RadioGroup);
 Vue.use(Radio);
 Vue.use(Loading);
+Vue.use(Tag);
 
 Vue.prototype.$message = Message;
 Vue.prototype.$alert = MessageBox.alert;
