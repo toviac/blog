@@ -11,7 +11,8 @@
     <!-- </el-collapse-transition> -->
     <el-card class="side-card">
       <div class="side-card-header">
-        <div class="avatar"></div>
+        <!-- <img src="@/assets/images/87535782_p0.png" alt="" /> -->
+        <!-- <div class="avatar"></div> -->
       </div>
       <el-button-group>
         <a href="https://github.com/docodocool" target="_blank">
@@ -81,12 +82,28 @@ export default {
       padding: 0;
     }
     .side-card-header {
+      cursor: pointer;
       position: relative;
       // 背景图片资源宽高比3/5, side-card固定宽度300px;
-      height: 180px;
-      background: url('~@/assets/images/card-bgimg.jpg') no-repeat top center;
-      background-size: contain;
-      margin-bottom: 50px;
+      height: 230px;
+      background: url('~@/assets/images/87535782_p0.png') no-repeat top center;
+      background-size: 300px 243px;
+      overflow: hidden;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background-size: 330px 267.3px;
+      }
+      // margin-bottom: 50px;
+      // img {
+      //   width: 100%;
+      //   height: 100%;
+      //   object-fit: cover;
+      //   transition: all 0.5s;
+      //   cursor: pointer;
+      //   &:hover {
+      //     transform: scale(1.05);
+      //   }
+      // }
       .avatar {
         // 优化性能
         z-index: 1;
